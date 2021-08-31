@@ -1,0 +1,199 @@
+   XFree86 3.1.2-1 for Debian GNU/Linux is now available at
+`ftp.debian.org' in the directory `/debian/binary/x11'.  XFree86
+3.1.2-1 consists of two required packages and several optional
+packages.  The required packages are `xlib' (which contains the
+XFree86 3.1.2 shared libraries) and `xbase' (which contains the
+bare minimum X11R6 system).
+
+   It is highly recommended that you download a server package that
+supports the video card in your machine.  Technically, the server is
+optional if you only plan to run X11R6 remotely, but most users will
+also plan to run it locally.  (If you don't understand what "locally"
+and "remotely" mean in this context, you should download a server.)
+
+   In this revision, many files previously included with `xbase' have
+been moved into a new package called `xstd'.  This makes it easier for
+the packages to be used as a "tiny X" distribution and to be used in a
+network setting with common resources.  `xstd' now includes:
+
+   * X11R6 contrib software
+   * X11R6 documentation (/usr/X11R6/lib/X11/doc)
+   * X11R6 include files (/usr/X11R6/include)
+   * Static and stub libraries previously included with `xbase'.
+
+   It is also highly recommended that you install the `xstd' package.
+
+
+Changes Relevant To Package Maintainers
+***************************************
+
+   Packages maintainers: READ THIS!
+
+   `xlib' was separated from `xbase' to allow us to unify packages
+that have both character and X11 interfaces, such as Emacs.
+Previously, we had to include two *different* packages, one for the
+character interface (generally with a `-nox' suffix) and one for the
+X11 interface (generally with a `-x' suffix).  With a separate `xlib'
+package, we need only include one package with a dependency of `xlib'.
+
+   With this revision, packages that have both text and X11 interfaces
+should no longer provide two packages (`-nox' and `-x').  They should
+be linked with the X11R6 shared libraries and depend upon `xlibraries':
+
+   DEPENDS: xlibraries
+
+   If a program is an X11 program, it should depend upon `X11R6'.  It
+should also recommend `xserver':
+
+   DEPENDS: X11R6
+   RECOMMENDED: xserver
+
+
+How To Upgrade
+**************
+
+   PLEASE NOTE THAT YOU *MUST* INSTALL THE xbase PACKAGE WITH dpkg
+0.50 OR ABOVE!!!  (Previous versions of dpkg do not support virtual
+packages.)
+
+Upgrading from 3.1.1-2
+======================
+
+   To upgrade from revision 3.1.1-2, you should first remove and purge
+the `xbaseR6' and `xr5shlib' dummy packages, which are no longer
+needed with the addition of support for virtual packages in dpkg.
+
+   # dpkg --purge --remove xbaseR6 xr5shlib
+
+Next, you should install the new packages.
+
+   # dpkg --install xbase-3.1.2-1.deb xlib-3.1.2-1.deb [...]
+
+Upgrading from 3.1.1-1 or before
+================================
+
+   Because the names and structure of the packages changed
+dramatically between 3.1.1-1 and 3.1.1-2, you will need to take
+special steps to upgrade the packages.  You will only need to do this
+once, and after the upgrade is complete, further upgrades can be done
+with dpkg, as usual:
+
+(1) Make a backup copy of your configuration:
+
+   # tar cvf etc-X11.tar /etc/X11
+
+(2) Remove all installed X system packages (the client packages,
+    like xarchie and xxgdb, may remain), purging configuration:
+
+   # dpkg --purge --remove xbaseR6 [...]
+
+(3) Install the new X system packages:
+
+   # dpkg --install xbase-3.1.2-1.deb xlib-3.1.2-1.deb [...]
+
+(4) Follow the automated steps to configure the package.
+
+(5) Edit or replace the new configuration with your old configuration,
+    if you like.  Several changes and improvements have been made to the
+    default configuration, however, so it is a good idea to examine the
+    changes and merge the old configuration by hand rather than blindly
+    overwriting the new configuration.
+
+Required Packages
+*****************
+
+        Package                 Description
+        =======                 ===========
+        xbase                   XFree86 3.1.2 base distribution.
+        xlib                    XFree86 3.1.2 shared libraries.
+
+-rw-rw-r--   1 imurdock distrib   1142706 Aug  8 09:22 xbase-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    451222 Aug  8 09:22 xlib-3.1.2-1.deb
+
+b2f9bdc1dfa01df14ce564e803ebc0a5  xbase-3.1.2-1.deb
+7367524565193d995fb9fc94e953b402  xlib-3.1.2-1.deb
+
+Server Packages
+***************
+
+        Package                 Description
+        =======                 ===========
+        x8514                   XFree86 3.1.2 8514 server.
+        xagx                    XFree86 3.1.2 AGX server.
+        xmach32                 XFree86 3.1.2 Mach32 server.
+        xmach64                 XFree86 3.1.2 Mach64 server.
+        xmach8                  XFree86 3.1.2 Mach8 server.
+        xmono                   XFree86 3.1.2 monochrome server.
+        xp9000                  XFree86 3.1.2 P9000 server.
+        xs3                     XFree86 3.1.2 S3 server.
+        xsvga                   XFree86 3.1.2 SVGA server.
+        xvga16                  XFree86 3.1.2 VGA/EGA server.
+        xw32                    XFree86 3.1.2 ET4000/W32 server.
+
+-rw-rw-r--   1 imurdock distrib    484058 Aug  7 12:40 x8514-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    557289 Aug  7 12:40 xagx-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    543912 Aug  7 12:40 xmach32-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    577639 Aug  7 12:40 xmach64-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    487810 Aug  7 12:40 xmach8-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    505240 Aug  7 12:40 xmono-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    563895 Aug  7 12:40 xp9000-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    641673 Aug  7 12:40 xs3-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    695488 Aug  7 12:40 xsvga-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    516850 Aug  7 12:40 xvga16-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    487556 Aug  7 12:40 xw32-3.1.2-1.deb
+
+fb99288b935550f5684610b3b97c06bd  x8514-3.1.2-1.deb
+a0de9fc226202338290e5f5620f4b6db  xagx-3.1.2-1.deb
+500f058b1cc1deddaa22cdc6f827bfd2  xmach32-3.1.2-1.deb
+779a2f5add7475a5b6405dc1c05df213  xmach64-3.1.2-1.deb
+b60eaca9e51d4d8e50420cec8724c37f  xmach8-3.1.2-1.deb
+1ff34aceea6f3022d05d8c7b644770c8  xmono-3.1.2-1.deb
+4635f667993799ac75eb18f1d68e5f5d  xp9000-3.1.2-1.deb
+d463cc2374c4dd10ddb419768999667c  xs3-3.1.2-1.deb
+4f59b2359ac6f8db39c8c51fec0e4055  xsvga-3.1.2-1.deb
+ab103ce15d33a00deeeee5074dd67328  xvga16-3.1.2-1.deb
+34ad13dd0f211ad7dc31f9ae215ef931  xw32-3.1.2-1.deb
+
+
+Highly Recommended Packages
+***************************
+
+        Package                 Description
+        =======                 ===========
+        xstd                    XFree86 3.1.2 standard distribution.
+
+-rw-rw-r--   1 imurdock distrib    879749 Aug  5 21:54 xstd-3.1.2-1.deb
+
+2b9c2ea491c021d5023d3efc76e22783  xstd-3.1.2-1.deb
+
+Optional Packages
+*****************
+
+        Package                 Description
+        =======                 ===========
+        xcompat                 XFree86 2.1.1 shared libraries.
+        xfnt100                 XFree86 3.1.2 100dpi screen fonts.
+        xfnt75                  XFree86 3.1.2 75dpi screen fonts.
+        xfntbig                 XFree86 3.1.2 large Kanji and other fonts.
+        xfntcyr                 XFree86 3.1.2 Cyrillic fonts.
+        xfntscl                 XFree86 3.1.2 scaled fonts (Speedo and Type1).
+        xman                    XFree86 3.1.2 manual pages.
+        xslib                   XFree86 3.1.2 static libraries.
+
+-rw-rw-r--   1 imurdock distrib    329080 Aug  5 10:14 xcompat-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib   1625066 Aug  5 12:39 xfnt100-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib   1347106 Aug  5 12:39 xfnt75-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib   3063431 Aug  5 12:39 xfntbig-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    493182 Aug  5 12:39 xfntcyr-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib   1124514 Aug  5 12:39 xfntscl-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    465844 Aug  5 10:14 xman-3.1.2-1.deb
+-rw-rw-r--   1 imurdock distrib    727376 Aug  5 10:14 xslib-3.1.2-1.deb
+
+70f29334a8349d6a4ac3e83432c513ce  xcompat-3.1.2-1.deb
+c339a9ff4109fc816b1221c57c9f65e4  xfnt100-3.1.2-1.deb
+2ead6c5e418c99bb752d52c4bdecc5aa  xfnt75-3.1.2-1.deb
+940841fc51126d7e03cf473f5208a6fe  xfntbig-3.1.2-1.deb
+69945892068bb92ec78da2da5af9fc6b  xfntcyr-3.1.2-1.deb
+a50a63eff6f397d5762359abacb0d093  xfntscl-3.1.2-1.deb
+1041761d0bbe08427e83119dfc83c873  xman-3.1.2-1.deb
+21c91dd334c6622da69a202e17070a1e  xslib-3.1.2-1.deb
