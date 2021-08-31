@@ -1,0 +1,6 @@
+Due to disk space limitations, we cannot include the source code
+to XFree86 3.1.2 with the FTP distribution.  (It will be included,
+of course, with the CD-ROM distribution.)  You can find the source
+code to X11R6 at `ftp.x.org' in the directory `/pub/R6' and the
+patches to create XFree86-3.1.2 from X11R6 at `ftp.xfree86.org'
+in `/pub/XFree86/3.1.2/patches/XFree86-3.1.2.diff.gz'.
