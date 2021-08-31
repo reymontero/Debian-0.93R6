@@ -1,0 +1,48 @@
+What Is Debian GNU/Linux?
+*************************
+
+   Debian GNU/Linux is a complete and powerful Unix-compatible
+operating system for IBM PC and compatible machines with an 80386 or
+faster processor.  In effect, it is a preliminary release of the GNU
+operating system, integrating the available parts of GNU with the Linux
+kernel.
+
+Computer Requirements (CPU and Architecture)
+********************************************
+
+   In general, Debian GNU/Linux will run on most IBM PC and compatible
+machines with ISA, EISA, VLB, or PCI architecture and an 80386, 80486,
+or Pentium processor.  This includes both desktop and laptop systems.
+Linux will not run on machines with IBM's proprietary Micro Channel
+Architecture (MCA)--most notably, this means that Debian GNU/Linux
+will not run on the IBM PS/2.
+
+Disk Space Requirements
+***********************
+
+   A minimal installation of Debian GNU/Linux requires slightly over ten
+megabytes of disk space.  This minimal system includes everything needed
+to install and run a Debian GNU/Linux system, but it will be difficult
+to do anything beyond that without installing additional software
+packages.  A typical installation without the X Window System requires
+approximately forty megabytes of disk space, and a typical installation
+with the X Window System requires approximately sixty megabytes of disk
+space.  The actual disk space requirements will depend greatly on which
+optional software packages you install, of course.
+
+RAM Requirements
+****************
+
+   Debian GNU/Linux requires at least four megabytes of RAM during
+installation and normal system use, and eight megabytes of RAM when
+running the X Window System.  In general, the more memory installed in
+the machine, the faster it will run.  For comparison, adding memory to
+a machine running MS-DOS will not result in much of a performance
+increase, but adding memory to a machine running Debian GNU/Linux will
+have a noticeable effect on performance.
+
+More Information
+****************
+
+   For more information about Debian GNU/Linux, please visit the World
+Wide Web page http://www.debian.org/.
