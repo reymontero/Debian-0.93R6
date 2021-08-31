@@ -1,0 +1,31 @@
+Sources for Debian GNU/Linux netstd package
+-------------------------------------------
+
+Compiling the networking tools:
+
+- make sure you have gcc-2.5.8 and libc-4.5.26 or newer available.
+
+- you need the tcp_wrapper library (libwrap.a). If you have installed
+  the netbase package you already have it. Otherwise you have either to
+  install the netbase package or you have to install the netbase sources
+  and compile the library yourself (you have to set TCPD_DIR at the top
+  of the debian.rules file to the location of your tcp_wrapper directory).
+
+- you can define where the tools should be installed. You simply have to
+  define the base directory using the DEBDIR variable. To install the tools
+  in the directory /work/net you simply have to do:
+
+  debian.rules "DEBDIR=/work/net" dir         # create the target directories
+  debian.rules "DEBDIR=/work/net" install     # install programs in /work/net
+
+- other targets are:
+
+  debian.rules        -  compile all programs
+  debian.rules clean  -  remove all binaries and object files from the
+                         source tree
+  debian.rules binary -  create a Debian GNU/Linux binary package
+  debian.rules source -  create a source package
+  debian.rules dist   -  source, diff and binary targets
+  debian.rules diff   -  create diffs for all programs (only useful if you
+                         have the original sources installed as well)
+

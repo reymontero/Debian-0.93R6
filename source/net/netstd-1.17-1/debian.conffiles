@@ -1,0 +1,15 @@
+/etc/bootptab
+/etc/diphosts
+/etc/exports
+/etc/ftpusers
+/etc/hosts.equiv
+/etc/pcnfsd.conf
+/etc/slip.dip
+/etc/slip.hosts
+/etc/slip.login
+/etc/slip.logout
+/etc/slip.tty
+/etc/yp.conf
+/etc/init.d/netstd_init
+/etc/init.d/netstd_nfs
+/etc/init.d/netstd_misc

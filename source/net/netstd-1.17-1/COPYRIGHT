@@ -1,0 +1,66 @@
+Copyright Informations for the Debian GNU/Linux networking package
+==================================================================
+
+The following packages are covered by BSD, BSD-like or GPL copyrights
+(or are public domain software).
+
+package			copyright
+---------------------------------
+bwnfsd			PD
+dip-3.3.7n		GPL
+finger			BSD
+fingerd			BSD
+fromto			GPL
+ftp			BSD
+ftpd			BSD
+host			BSD-like
+icmpinfo-1.10		BSD
+libtelnet		BSD
+net-extra		GPL
+netdate			PD
+nfs-server-2.1		GPL
+pidentd-2.6.1		PD
+pop2d			BSD
+pop3d			BSD
+rcp			BSD
+rdate			BSD
+rdist			BSD
+rexecd			BSD
+rlogin			BSD
+rlogind			BSD
+routed			BSD
+rpc.rusersd		BSD-like
+rpc.rwalld		BSD
+rsh			BSD
+rshd			BSD
+rstatd-linux-15y	GPL
+ruptime			BSD
+rusers			BSD-like
+rwall			BSD
+rwho			BSD
+rwhod			BSD
+sliplogin-1.6.1		BSD
+talk			BSD
+talkd			BSD
+telnet			BSD
+telnetd			BSD
+tftp			BSD
+tftpd			BSD
+traceroute-4.4BSD	BSD
+vrfy			BSD-like
+yp-clients-2.0		BSD-like
+yppasswd-0.7		GPL/BSD-like
+ypserv-0.13.1		GPL
+
+
+The following packages are not covered by BSD, BSD-like or GPL copyrights
+(and are not public domain software). They have their own copyright file.
+
+package			copyright-file
+------------------------------------------------------
+bootpc-0.45		/usr/doc/copyright/bootpc
+bootp-2.4.3		/usr/doc/copyright/bootpd
+fping			/usr/doc/copyright/fping
+pcnfsd			/usr/doc/copyright/pcnfsd
+popclient-2.21		/usr/doc/copyright/popclient
+rpc-0.9			/usr/doc/copyright/rpc

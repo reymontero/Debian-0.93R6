@@ -1,0 +1,431 @@
+Fri Sep 22 01:12:34 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.17 released
+
+	* yppasswd: pwupdate will now use "../Makefile" if
+		    "/var/yp/<nisdomain>/Makefile" does not exist.
+
+	* yppasswd: pwupdate will now use mailx. If mailx is not available
+		    it will use sendmail instead.
+
+	* /etc/init.d/netstd*: rwhod, ypserv, ypbind, yppasswd, nfsd,
+			       mountd, pcnfsd and bwnfsd will now be
+			       started using start-stop-daemon (Bug#1414)
+
+
+Thu Sep 14 23:25:38 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.16 released
+
+	* talkd: the talkd will suppress VT100 (flash) bombs now
+
+	* yppasswd: added yppasswd-0.7 (with ypchfn and ypchsh support)
+
+	* debian.postinst: minor changes
+
+
+Wed Sep 13 01:01:29 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.15 released
+
+	* pop3d: exit gracefully on SIGPIPE signals (patch from
+		 Stephen R. van den Berg <srb@cuci.nl>)
+
+	* pop2d: exit gracefully on SIGPIPE signals
+
+	* pcnfsd: the default uid range now starts at uid 100
+
+	* ftp: fixed a malloc/free bug (mput with multiple arguments
+	       will work now)
+
+	* yp-clients: fixed permissions of manual page (Bug#1320)
+
+	* debian.postinst: changed the inetd.conf entry for the identd
+			   service (no tcp_wrapper)
+
+
+Mon Aug 21 22:11:38 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.14 released
+
+	* rewrote the install/remove scripts to make use of the new
+	  update-inetd command and the DebianNet.pm perl module
+
+	* debian.control: added "depends: netbase (>1.14)"
+
+	* bootpc-0.31: replaced by bootpc-0.45
+
+	* bootpc-0.45: minor ELF cleanups
+
+	* sliplogin-1.6: replaced by sliplogin-1.6.1
+
+
+Sat Jul 29 19:43:13 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.13 released
+
+	* bootpc-0.16: replaced by bootpc-0.31
+
+	* bootpd-2.4.1: replaced by bootp-2.4.3
+
+	* pidentd-2.2: replaced by pidentd-2.6.1
+
+	* sliplogin-1.5: replaced by sliplogin-1.6
+
+	* yp-clients-1.6: replaced by yp-clients-2.0
+
+	* traceroute-1.17: replaced by traceroute-4.4BSD
+
+	* traceroute: added a missing htons()
+
+	* checkrusers: added checkrusers script
+
+	* popclient: added a patch from D.J. Gregor <dgregor@coil.com>
+		     which makes the popclient more secure. Look at the
+		     manual page (option -P) for further information.
+
+	* dip: Makefile: removed SYSOBJS from the OBJS list and changed
+	       LD=ld to LD=gcc (it should now be possible to compile
+	       dip with gcc-elf 2.7.0)
+
+	* rlogind: added an ELF patch from J.H.M. Dassen
+
+	* rshd: added an ELF patch from J.H.M. Dassen
+
+
+Sun Jul 16 22:31:26 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.12 released
+
+	* rdate: added support for IP-addresses
+
+	* rdist: added a patch from <eichin@cygnus.com>. Using rdist
+		 with large files should work now.
+
+	* finger: added 8bit support. You can force the 7bit mode (local
+		  and remote) by using the -7 option (Bug#921)
+
+	* traceroute: added a missing htons()
+
+	* host-950115: replaced by host-950502
+
+	* vrfy-940929: replaced by vrfy-950410
+
+	* ypserv: added ypserv-0.13.1
+
+	* yp-clients: changed /var/nis back to /var/yp (see current
+		      fsstnd draft)
+
+
+
+Thu May 18 20:31:15 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.11 released
+
+	* rsh: it will show the hostname correctly if a getopt error occurs
+	       (Bug#881)
+
+	* dip-3.3.7n: removed -qmagic from LDFLAGS (Bug#888)
+
+	* pop2d: Makefile: removed dependencies from the "clean" target
+		 (Bug#883)
+
+	* pop3d: Makefile: removed dependencies from the "clean" target
+
+	* rlogind: changed the logoff routine so it will set the mode
+		   of the released line to rw-------
+
+	* telnetd: changed the logoff routine so it will set the mode
+		   of the released line to rw-------
+
+
+Fri May 12 00:17:03 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.10 released
+
+	* dip-3.3.7m: replaced by dip-3.3.7n (now with IP accounting)
+
+	* yp-clients: yp-clients-1.5 replaced by yp-clients-1.6
+
+	* talk: added support for 8bit characters (e.g. German umlauts)
+
+	* changed the permissions for the in.* and rpc.* daemons
+
+	* debian.preinst: telnetd/rshd/rlogind will not be killed during the
+			  preinst procedure (Bug#802)
+
+	* debian.postinst: create an relative link for issue.net instead of
+			   an absolute link (Bug#806)
+
+
+
+Wed Apr  5 12:29:51 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.09 released
+
+	* popclient: the popclient now uses /usr/sbin/sendmail instead of
+                     /bin/mail (Bug#726)
+
+	* debian.postinst: check if /tmp/netinst.tmp exist (Bug#720)
+
+	* dip-3.3.7l: dip now logs the duration of your last SLIP
+		      connection. If you want to log the IP traffic use
+		      something like this:
+		      ipfw a a all iface <localIP> from <local> to 0.0.0.0/0
+		      ipfw a a all iface <localIP> from 0.0.0.0/0 to <local>
+		      <localIP> ==> IP-address of your local SLIP interface
+		      <local> ==> IP-address or name of your local SLIP
+		      interface.
+
+	* sliplogin-1.4: replaced by sliplogin-1.5 (security fixes)
+
+	* changed the permissions for routed and clnt.pcnfsd (Bug#741)
+
+
+Mon Mar 13 22:49:38 MET 1995  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.08 released
+
+	* debian.{pre|post}{inst|rm}: added support for System V Init
+
+	* changed /var/adm/utmp to /var/run/utmp
+
+	* changed /var/adm/wtmp to /var/log/wtmp
+
+	* changed /var/adm/lastlog to /var/log/lastlog
+
+	* nfs-server-2.0: replaced by nfs-server-2.1
+			  The root_squash, no_root_squash, ro/rw and
+			  the "every_user_can_kill_the_nfsd" bug should
+			  be fixed now.
+
+	* finger: fixed the "@" bug
+
+	* dip-3.3.7l: replaced by dip-3.3.7m
+		      If you run dip-3.3.7m as a server (diplogin) your
+		      clients probably have to change their login scripts
+		      because diplogin won't ask for a password anymore
+		      when the password entry in /etc/diphosts is empty
+
+
+Mon Feb  6 10:12:07 MET 1995  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.07 released
+
+	* bind: removed bind-4.8.3 (it's now a separate package)
+
+	* host: added the nslookup.sh shell script
+
+	* nfs-server: the root_squash option should work correctly now
+
+	* yp-clients: added missing domainname command to the makefile
+
+
+Mon Jan 30 00:25:15 MET 1995  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.06 released
+
+	* rc.netstd: disabled rwhod, added an entry for ypbind (disabled)
+
+	* dip-3.3.7l: location changes
+		      /usr/doc/net/slip       ==>  /usr/doc/net/dip
+		      /usr/doc/examples/slip  ==>  /usr/doc/examples/dip
+
+	* dip-3.3.7l: replaced the default /etc/slip.dip (busy detection,
+		      redialing, easier configuration)
+
+	* sliplogin: sliplogin-5.6 (BSD) replaced by sliplogin-1.4
+		     (enhanced sliplogin-5.6 BSD version)
+
+	* rdist: rdist-5.6 replaced by rdist-6.1.0
+
+	* fping: added fping-1.2.0
+
+	* vrfy: added vrfy 940929 (verify email addresses, e.g. for checking
+		mailing list expansions)
+
+	* host: replaced host-1.0.1 by host-950115
+
+	* rlogind: fixed a problem with local hostnames (you can now use
+		   short hostnames instead of FQDNs in the .rhosts file)
+		   [the bug should be fixed in the libc library ... (rcmd.c)]
+
+	* rshd: fixed a problem with local hostnames (you can now use
+		short hostnames instead of FQDNs in the .rhosts file)
+		[the bug should be fixed in the libc library ... (rcmd.c)]
+
+	* rshd: wrote manual pages for hosts.equiv(5) and rhosts(5)
+
+	* yp-clients: yp-clients-1.4 replaced by yp-clients-1.5
+
+
+Sat Jan 14 01:38:04 MET 1995  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.05 released
+
+	* dip: replaced dip-3.3.7-strauss.3 with dip-3.3.7l (uri)
+	  ATTENTION: The dial command works slightly different now,
+	  it "eats" the string the modem responds with to your dial!
+	  Thus, DON'T expect "CONNECT" after successful dial, not any more.
+	  ATTENTION: The format of the /etc/diphosts file has changed
+	  (see the man page dip.8 for further details).
+
+	* netdate: fixed copyright file (public domain)
+
+	* tftpd: fixed the permissions
+
+
+
+Fri Nov 25 01:35:34 MET 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.04 released
+
+	* dip-3.3.7-strauss: fixed a bug in the quit function
+	  (no more "cannot open /var/run/dip.pid" when using "quit" in
+	  the dip test mode)
+
+	* telnetd: added the -L option. You can start a different
+	  login program with this option (new login program, ttysnoops).
+	  ATTENTION: programs that you start with the -L option will
+	  be run with the uid specified in the /etc/inetd.conf file
+	  (e.g. root)
+
+	* debian.postinst: create /var/adm/lastlog with the correct
+	  permissions if it does not already exist
+
+	* ppp-2.1.2a: removed from the netstd package. It's now a
+	  separate package.
+
+
+Mon Oct 31 01:21:20 MET 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.03 released
+
+	* fixed a minor problem in the debian.{pre|post}{inst|rm} scripts
+
+
+Tue Oct 25 22:52:11 MET 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.02 released
+
+	* added PACKAGE_REVISION to debian.control
+
+	* changed debian.{pre|post}{inst|rm} scripts to be more quite
+
+	* fixed the permissions of suid/sgid files
+
+	* recompiled all binaries due to changes in the /usr/include/paths.h
+          include file
+
+	* rpc-0.9: removed tsort
+
+	* ruptime: fixed a ntohl problem, fixed an endian problem (endian.h)
+
+	* rwhod: fixed an endian problem (endian.h)
+
+	* systat: updated from 1.0 to 1.1
+
+
+Wed Sep 21 00:13:54 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.01 released
+
+	* added /etc/rc.misc/netstd
+
+	* named: named-xfer will now remove temporary files correctly
+
+
+Wed Aug 24 21:32:42 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.00 released
+
+	* bootpd: updated from 2.2B to 2.4.1
+
+	* removed ping, inetd, portmap, tcp_wrapper and net-tools
+	  (they are now part of the netbase package)
+
+	* named: added a sample /etc/named.boot
+
+	* pppd: added a chat example (/usr/doc/examples/ppp)
+
+	* bootpd: renamed from in.bootpd to bootpd
+
+	* pidentd: renamed from in.identd to identd
+
+
+Sat Aug 13 22:54:34 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 0.46 released
+
+	* lpr: removed from the net package (now a separate package)
+
+	* etc-net: added net related config files (moved from the base package)
+
+	* pppd: replaced the wrong copyright file with a correct one
+
+	* icmpinfo: added icmp-info
+
+	* net-extra: added systat
+
+
+
+Wed Aug  3 21:50:51 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 0.45 released
+
+	* net-tools: replaced with net-tools-1.1.38
+
+	* yp: Changed the path for the NIS database files
+
+	* Changed debian.rules/Makefile to simplify the creation of
+	  source, diff and binary packages
+
+	* Files in /usr/doc/copyright will not be `gzipped' anymore
+
+
+
+Thu Jul 28 22:00:16 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 0.44 released
+
+	* ftpd: changed logwtmp.c so it won't mess up /var/adm/wtmp anymore
+
+	* telnetd: added a working version of the file logwtmp.c because
+	           the libbsd version is buggy and fixed two other bugs in
+	           sys_term.c
+
+	* rlogind: added a working version of the file logwtmp.c because
+	           the libbsd version is buggy
+
+
+
+Tue Jul 26 23:59:31 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 0.43 released
+
+	* BSD copyright file will not be installed (it's already there)
+
+	* changed /usr/doc/example to /usr/doc/examples
+
+	* slattach: changed permissions to 755 and moved it to /usr/sbin
+
+	* yp: added yppasswd
+
+	* tcp_wrapper: turned on access control language extensions
+
+	* tcp_wrapper: changed syslog facility to LOG_DAEMON
+
+
+
+Wed Jul 20 17:23:21 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 0.42 released
+
+	* added a bootp client
+
+	* no additional header files for /usr/include/rpcsvc anymore
+
+	* telnetd: a %h in the issue.net file will now print the FQDN
+
+	* net-0.32d: removed. Added net-tools-1.1.29 package instead
+

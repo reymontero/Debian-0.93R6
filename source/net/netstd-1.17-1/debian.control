@@ -1,0 +1,11 @@
+PACKAGE: netstd
+VERSION: 1.17
+PACKAGE_REVISION: 1
+MAINTAINER: Peter Tobias <tobias@et-inf.fho-emden.de>
+DEPENDS: netbase (>1.15)
+OPTIONAL: bind, wu-ftpd, smail | sendmail
+DESCRIPTION: Networking binaries and daemons for Linux
+ The netstd package provides you with the standard networking services
+ (server and clients).  This includes services like ftp, telnet, nfs,
+ pcnfsd, bootp, tftp, finger, pop, rsh, rlogin, SLIP, yp and others.
+

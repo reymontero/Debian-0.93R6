@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# Start networking daemons.
+
+NET="/usr/sbin"
+test -f ${NET}/routed || exit 0
+
+case "$1" in
+  start)
+#	echo "Starting routing daemon" ; start-stop-daemon --start --quiet --exec ${NET}/routed -g -s
+	;;
+  stop)
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/routed
+	;;
+  *)
+        echo "Usage: /etc/init.d/netstd_init {start|stop}"
+        exit 1
+esac
+
+exit 0
+

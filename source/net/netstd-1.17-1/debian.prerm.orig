@@ -1,0 +1,15 @@
+#!/bin/sh
+# pre remove script for the Debian GNU/Linux netstd package
+
+set -e
+
+update-inetd --disable telnet,shell,login,exec,pop-2,pop-3,finger,ident,ntalk,talk
+
+if grep -q '^ftp.*in.ftpd.*$' /etc/inetd.conf; then
+    update-inetd --disable ftp
+fi
+
+/etc/init.d/netstd_init stop
+/etc/init.d/netstd_nfs stop
+/etc/init.d/netstd_misc stop
+ 

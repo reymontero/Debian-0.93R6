@@ -1,0 +1,85 @@
+#!/usr/bin/perl
+# post install script for the Debian GNU/Linux netstd package
+
+require DebianNet;
+
+# don't change the permissions
+umask(000);
+
+# daemons that should be restarted
+open(NETINST, "/tmp/netinst.tmp");
+  $dts=<NETINST>;
+close(NETINST);
+unlink("/tmp/netinst.tmp");
+chomp($dts);
+@dts = split(' ', $dts);
+
+# restart the daemons
+foreach (@dts) {
+    exec("/usr/sbin/$_");
+}
+
+# the ftp entry is a special case
+open(INETD, "/etc/inetd.conf");
+    @inetd=<INETD>;
+close(INETD);
+# $found = grep(/^##\s*ftp/, @inetd) + grep(/^#\s*ftp/, @inetd) + grep(/^ftp\s*/, @inetd);
+$found = grep(/.*ftp.*ftpd.*/, @inetd);
+undef(@inetd);
+$newentry = "ftp	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.ftpd";
+if ($found) {
+#   DebianNet::enable_service("ftp");
+} else {
+    DebianNet::add_service($newentry, "STANDARD") unless ($found);
+}
+
+# old identd entry (with tcpd)? Remove it!
+DebianNet::remove_service("^#<off>#.*ident.*/usr/sbin/tcpd.*identd.*");
+
+# add the other entries
+while(<DATA>) {
+    chomp;
+    next unless ($_);
+    ($group, $newentry) = split(/\s*;\s*/, $_);
+    DebianNet::add_service($newentry, $group);
+}
+
+# create a symbolic link for /etc/issue.net if it does not exist
+if(!(-f "/etc/issue.net") and !(-l "/etc/issue.net")) {
+  symlink("issue", "/etc/issue.net");
+}
+
+# touch /var/adm/lastlog
+open(LL, ">>/var/adm/lastlog");
+close(LL);
+chown(0, 0, "/var/adm/lastlog");
+chmod(0644, "/var/adm/lastlog");
+
+system("update-rc.d netstd_init defaults 15 >/dev/null");
+system("update-rc.d netstd_nfs defaults 25 >/dev/null");
+system("update-rc.d netstd_misc defaults 30 >/dev/null");
+
+system("/etc/init.d/netstd_init start");
+system("/etc/init.d/netstd_nfs start");
+system("/etc/init.d/netstd_misc start");
+
+__END__
+STANDARD; telnet	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.telnetd
+BSD; shell	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.rshd
+BSD; login	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.rlogind
+BSD; exec	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.rexecd
+BSD; talk	dgram	udp	wait	root	/usr/sbin/tcpd	/usr/sbin/in.talkd
+BSD; ntalk	dgram	udp	wait	root	/usr/sbin/tcpd	/usr/sbin/in.ntalkd
+MAIL; pop-2	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.pop2d
+MAIL; pop-3	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.pop3d
+INFO; finger	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.fingerd
+INFO; ident	stream	tcp	nowait	nobody	/usr/sbin/identd	identd -i
+INFO; #netstat	stream	tcp	nowait	nobody	/usr/sbin/tcpd	/bin/netstat
+INFO; #systat	stream	tcp	nowait	nobody	/usr/sbin/tcpd	/bin/ps -auwwx
+BOOT; #tftp	dgram	udp	wait	nobody	/usr/sbin/tcpd	/usr/sbin/in.tftpd /boot
+BOOT; #bootps	dgram	udp	wait	root	/usr/sbin/bootpd	bootpd -i -t 120
+RPC; #mountd/1	dgram	rpc/udp	wait	root	/usr/sbin/tcpd	/usr/sbin/rpc.mountd
+RPC; #rstatd/1-3	dgram	rpc/udp	wait	root	/usr/sbin/tcpd	/usr/sbin/rpc.rstatd
+RPC; #rusersd/2-3	dgram	rpc/udp	wait	root	/usr/sbin/tcpd	/usr/sbin/rpc.rusersd
+RPC; #walld/1	dgram	rpc/udp	wait	root	/usr/sbin/tcpd	/usr/sbin/rpc.rwalld
+

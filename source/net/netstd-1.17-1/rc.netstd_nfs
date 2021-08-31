@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# Start nfs daemons.
+
+NET="/usr/sbin"
+test -f ${NET}/rpc.nfsd || exit 0
+
+case "$1" in
+  start)
+	echo -n "Starting remote filesystem services: "
+#	echo -n "nfsd " ; start-stop-daemon --start --quiet --exec ${NET}/rpc.nfsd
+#	echo -n "mountd " ; start-stop-daemon --start --quiet --exec ${NET}/rpc.mountd
+#	echo -n "pcnfsd " ; start-stop-daemon --start --quiet --exec ${NET}/rpc.pcnfsd
+#	echo -n "bwnfsd " ; start-stop-daemon --start --quiet --exec ${NET}/rpc.bwnfsd /var/spool/bwnfs
+	echo
+	;;
+  stop)
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.bwnfsd
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.pcnfsd
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.mountd
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.nfsd
+	;;
+  *)
+        echo "Usage: /etc/init.d/netstd_nfs {start|stop}"
+        exit 1
+esac
+
+exit 0
+

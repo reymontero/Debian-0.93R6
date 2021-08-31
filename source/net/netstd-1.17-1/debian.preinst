@@ -1,0 +1,38 @@
+#!/bin/sh
+# pre install script for the Debian GNU/Linux netstd package
+
+# Daemons that should be restarted after they have been killed and replaced
+DAEMONS1="rpc.mountd rpc.nfsd rpc.rusersd rpc.rstatd rpc.rwalld \
+          rpc.yppasswdd rdistd ypbind ypserv"
+
+# Daemons that can safely be killed (e.g. all from /etc/inetd.conf)
+DAEMONS2="icmpinfo identd in.ftpd in.talkd in.ntalkd \
+          in.rexecd in.pop2d in.pop3d in.comsat in.tftpd bootpd \
+          in.fingerd slattach sliplogin"
+
+# Links that may cause trouble
+F_LINKS="/usr/sbin/diplogin /usr/sbin/in.ntalkd"
+rm -f $F_LINKS
+
+echo "Checking for running networking daemons ..."
+
+for d in ${DAEMONS1}
+do
+  DRUN=`ps -ax|grep $d|grep -v grep|wc -l`
+  if [ $DRUN = 1 ]; then
+    DTS="$DTS $d"
+    killall -9 $d
+  fi
+  DRUN=0
+done
+ 
+echo $DTS >/tmp/netinst.tmp
+
+for d in ${DAEMONS2}
+do
+  DRUN=`ps -ax|grep $d|grep -v grep|wc -l`
+  if [ $DRUN != 0 ]; then
+    killall -9 $d
+  fi
+  DRUN=0
+done

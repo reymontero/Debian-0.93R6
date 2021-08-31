@@ -1,0 +1,10 @@
+#!/bin/bash
+# post removal script for the Debian GNU/Linux netstd package
+
+if [ $1 = "purge" ]
+then
+  update-rc.d netstd_init remove >/dev/null
+  update-rc.d netstd_nfs remove >/dev/null
+  update-rc.d netstd_misc remove >/dev/null
+fi
+

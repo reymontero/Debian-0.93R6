@@ -1,0 +1,191 @@
+#!/usr/bin/perl
+#
+# checkrhosts: a utility to check the .rhosts files of all users
+#
+# Copyright (C) 1995 Peter Tobias <tobias@et-inf.fho-emden.de>
+#
+#    checkrhosts is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published
+#    by the Free Software Foundation; either version 2 of the License,
+#    or (at your option) any later version.
+#
+#    checkrhosts is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#    General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with checkrhosts; if not, write to the Free Software Foundation,
+#    Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
+$version = "1.0";
+
+die "You must be root to run this script.\n" if ($> != 0);
+
+
+# strip directory from the filename
+$0 =~ s#.*/##;
+
+$found = 0;
+@skipuser = ("nobody");
+
+setpwent;
+user: while(@list = getpwent) {
+	($login, $uid, $gid, $home) = @list[0,2,3,7];
+
+	foreach (@skipuser) {
+		next user if ( $_ eq $login);
+	}
+
+	if (($home ne "") and (-R "$home/.rhosts")) {
+		&check_rhosts;
+	}
+}
+&display_info if ($found != 0);
+endpwent;
+
+###############################################################################
+
+sub check_rhosts {
+	my(@rhentry);
+	undef $netgroups;
+	undef %holes;
+	undef $host;
+	open(RHOSTS, "$home/.rhosts") || die "$0: can't open $home/.rhosts\n";
+	while (<RHOSTS>) {
+		next if (/^#/);
+		@rhentry = split(' ');
+		if (/^[ \t]*\+@/) { 
+			$rhentry[0] =~ s/^\+//;
+			$netgroups=$netgroups . $rhentry[0] . " ";
+		}
+		elsif ($#rhentry > 0) {
+			$host=$rhentry[0];
+			shift(@rhentry);
+			while ( $#rhentry >= 0 ) {
+				if ( $rhentry[0] ne $login )  {
+					$holes{$host}=$holes{$host} . $rhentry[0] . " ";
+				}
+				shift(@rhentry);
+			}
+     		}
+    	}
+    	close(RHOSTS);
+	($fmode, $fuid, $fgid, $fsize) = (stat("$home/.rhosts"))[2,4,5,7];
+	&display_result;
+}
+
+sub display_result {
+	my($prefix);
+	$prefix = "[$login]";
+	if ($fmode & 077) {
+		&foundp;
+		printf("%-10s: File is either group or world readable/writable\n", $prefix);
+	}
+	if ($uid != $fuid) {
+		&foundp;
+		printf("%-10s: UID ($uid) and File UID ($fuid) are not equal\n", $prefix);
+	}
+	if (($gid != $fgid) and (!&in_etcgroup)) {
+		&foundp;
+		printf("%-10s: GID ($gid) and File GID ($fgid) are not equal\n", $prefix);
+	}
+	if (($login eq "ftp") and ($fsize !=0)) {
+		&foundp;
+		printf("%-10s: The .rhosts file of the user \"ftp\" should be empty!\n", $prefix);
+	}
+	if ($netgroups ne "") {
+		&foundp;
+		printf("%-10s: All users in the following netgroups can login without a password:\n", $prefix);
+		printf("%-10s: --> %s\n", $prefix, $netgroups);
+	}
+
+	for ( keys %holes )  {
+		&foundp;
+		printf("%-10s: The following users at \"%s\" can login without a password:\n", $prefix, $_);
+		printf("%-10s: --> %s\n", $prefix, $holes{$_});
+	}
+	if ($foundp) {
+		$found++;
+		print "-" x 79 . "\n";
+	}
+	undef $foundp
+}
+
+sub display_info {
+	print <<EOF;
+
+
+Number of insecure .rhosts files: $found
+
+
+Description of the problems:
+----------------------------
+
+Problem 1: * File is either group or world readable/writable
+           Every user can look at the .rhosts file to find out which users
+           can login without a password. If the file is writable they could
+           even change it (e.g. add their own name to it)!
+Solution : Change the permissions with \"chmod go-rw .rhosts\".
+
+
+Problem 2: * UID (X) and File UID (Y) are not equal
+           The UID of the user and the UID of the .rhosts file are not the
+           same. The owner of the .rhosts file could change it (e.g. add
+           other names to it)!.
+Solution : Change the owner of the .rhosts file with \"chown <user> .rhosts\".
+           You can also rename the file and create a new one.
+
+
+Problem 3: * GID (X) and File GID (Y) are not equal
+           The file does not belong to a group the user is in. Other users
+           could read, change or delete the .rhosts file depending on the
+           group permissions.
+Solution : Change the group of the .rhosts file with \"chgrp <group> .rhosts\".
+           You can also rename the file and create a new one.
+
+
+Problem 4: * The .rhosts file of the user \"ftp\" should be empty!
+           For security reasons the .rhosts file of the user \"ftp\" should
+           not contain any entries.
+Solution : Remove all entries from the .rhosts file.
+
+
+Problem 5: * All users in the following netgroups can login without a password
+           Each user in the netgroup can login without a password. The listed
+           netgroup should be checked for unwanted users.
+Solution : Remove unwanted netgroups from the .rhosts file.
+
+
+Problem 6: * The following users at <hostname> can login without a password
+           These entries should be checked carefully. Only trusted users
+           should be allowed to login without a password from host <hostname>.
+Solution : Remove unwanted users from the .rhosts file.
+
+
+EOF
+}
+
+sub in_etcgroup {
+	setgrent;
+	while(@gr_list = getgrent) {
+		($gr_gid,$gr_members) = @gr_list[2,3];
+		push(@gidlist, $gr_gid) if ($gr_members =~ /$login/);
+	}
+	endgrent;
+	foreach (@gidlist) {
+		return(1) if ($_ == $fgid);
+	}
+}
+
+sub foundp {
+	$foundp++;
+	if (($found == 0) and ($foundp == 1)) {
+		print "\n\nList of users with insecure .rhosts files\n";
+		print "-" x 41 . "\n\n";
+		print "User:       Problem:\n";
+		print "-" x 79 . "\n";
+	}
+}
+

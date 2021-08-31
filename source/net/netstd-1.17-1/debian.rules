@@ -1,0 +1,137 @@
+#!/usr/bin/make -f
+# debian.rules file for the Debian GNU/Linux netstd package
+# Invoke each target with:  debian.rules <target>
+# All should be invoked with the package root as the current directory
+
+PKG = netstd
+
+OPATH := $(shell echo $(PATH))
+PWD   := $(shell pwd)
+P_VER := $(shell grep "VERSION:" debian.control | cut -d' ' -f 2)
+P_REV := $(shell grep "PACKAGE_REVISION:" debian.control | cut -d' ' -f 2)
+
+PVER  := ${P_VER}-${P_REV}
+
+export PATH=$(OPATH):$(PWD)/rpc-0.9/rpcgen:$(PWD)/rpc-0.9/rpcgen-old:.
+
+# DEBDIR must not be a relative path! Always use an absolute path!
+export DEBDIR = /tmp/debian-tmp
+
+# If you don't have the netbase package installed please use TCPD_DIR
+# to set the path to the tcp_wrapper library and the include files.
+#export TCPD_DIR = ../netbase
+
+
+SUBDIRS = bootpc-0.45 bootp-2.4.3 bwnfsd dip-3.3.7n finger fingerd fping \
+	fromto ftp ftpd host icmpinfo-1.10 libtelnet net-extra \
+	netdate pidentd-2.6.1 pop2d pop3d popclient-2.21 rcp rdate \
+	rdist rexecd rlogin rlogind routed rpc-0.9 pcnfsd rpc.rusersd \
+	rpc.rwalld rsh rshd rstatd ruptime rusers rwall rwho rwhod \
+	sliplogin-1.6.1 talk talkd telnet telnetd tftp tftpd traceroute-4.4BSD \
+	vrfy yp-clients-2.0 yppasswd-0.7 ypserv-0.13.1
+
+DATADIRS = include nfs-server-2.1 etc-${PKG}
+
+build:
+	@echo -e "\nPlease use the target 'binary' or 'install' instead.\n"
+	@echo -e "Target directory: ${DEBDIR}\n"
+	@exit 0
+
+clean:
+	@for i in $(SUBDIRS); do \
+	 ( cd ./$$i && echo -e "\nMaking clean in \`$$i':\n" && make clean ) || exit 1; \
+	done
+	( cd nfs-server-2.1 && ./configure && make distclean) || exit 1;
+
+install: dir
+	@for i in $(SUBDIRS); do \
+	 ( cd ./$$i && echo -e "\nMaking install in \`$$i':\n" && make install ) || exit 1; \
+	done
+	( cd nfs-server-2.1 && ./configure && make install) || exit 1;
+
+diff:
+	install -m 755 -d ../${PKG}.diffs
+	@for i in $(SUBDIRS) $(DATADIRS); do \
+	 ( cd ..; \
+	   if [ -d ${PKG}.orig/$$i.orig ]; then \
+	     echo -e "Creating diff for $$i ..."; \
+	     diff -c -P --recursive --exclude=COPYRIGHT \
+                --exclude=COPYING ${PKG}.orig/$$i.orig/ ${PKG}/$$i/ >${PKG}.diffs/$$i.diff || \
+	     true; \
+           fi ) || exit 1; \
+	done
+	gzip -9fv ../${PKG}.diffs/*.diff
+	(cd ../${PKG}.diffs && tar cvf ../${PKG}-${PVER}-diffs.tar *) || exit 1;
+
+binary: install
+	install -o root -g root -m 0644 etc-${PKG}/* ${DEBDIR}/etc
+	install -o root -g root -m 0755 rc.netstd_init ${DEBDIR}/etc/init.d/netstd_init
+	install -o root -g root -m 0755 rc.netstd_nfs ${DEBDIR}/etc/init.d/netstd_nfs
+	install -o root -g root -m 0755 rc.netstd_misc ${DEBDIR}/etc/init.d/netstd_misc
+	install -o root -g root -m 0644 COPYRIGHT ${DEBDIR}/usr/doc/copyright/${PKG}
+	install -o root -g root -m 0755 checkrhosts ${DEBDIR}/usr/sbin
+	chmod 755 ${DEBDIR}/etc/slip.login ${DEBDIR}/etc/slip.logout
+	chgrp dip ${DEBDIR}/etc/slip.dip
+	chmod 640 ${DEBDIR}/etc/slip.dip
+	cp -av debian.control ${DEBDIR}/DEBIAN/control
+	cp -av debian.conffiles ${DEBDIR}/DEBIAN/conffiles
+	cp -av debian.preinst ${DEBDIR}/DEBIAN/preinst
+	cp -av debian.prerm ${DEBDIR}/DEBIAN/prerm
+	cp -av debian.postinst ${DEBDIR}/DEBIAN/postinst
+	cp -av debian.postrm ${DEBDIR}/DEBIAN/postrm
+	chmod +x ${DEBDIR}/DEBIAN/preinst 
+	chmod +x ${DEBDIR}/DEBIAN/prerm 
+	chmod +x ${DEBDIR}/DEBIAN/postinst 
+	chmod +x ${DEBDIR}/DEBIAN/postrm
+	dpkg --build ${DEBDIR}
+	mv ${DEBDIR}.deb ../${PKG}-${PVER}.deb
+	cp debian.Changelog ../${PKG}-${PVER}.Changelog
+
+bdist: binary
+	tar cvf ../${PKG}-${PVER}-bin.tar ${DEBDIR}
+	gzip -9fv ../${PKG}-${PVER}-bin.tar
+
+source:
+	chmod +x debian.rules
+	(cd .. && tar cvf ${PKG}-${PVER}-orig.tar ${PKG}.orig) || exit 1;
+	gzip -9fv ../${PKG}-${PVER}-orig.tar
+	install -d ../net-tmp
+	@for i in $(SUBDIRS) $(DATADIRS); do \
+	 ( echo -e "\nCreating \`$$i.tar' ...\n" && tar cvf ../net-tmp/$$i.tar $$i ) || exit 1; \
+	done
+	gzip -9fv ../net-tmp/*.tar
+	cp checkrhosts INFO COPYRIGHT rc.netstd_* debian.* ../net-tmp
+	(cd ../net-tmp && tar cvf ../${PKG}-${PVER}-src.tar *) || exit 1;
+	rm -rf ../net-tmp
+
+md5:
+	(cd .. && \
+	ls -l ${PKG}-${PVER}.deb ${PKG}-${PVER}-src.tar ${PKG}-${PVER}-diffs.tar >${PKG}-${PVER}.md5 && \
+	echo >>${PKG}-${PVER}.md5 && \
+	md5sum ${PKG}-${PVER}.deb >>${PKG}-${PVER}.md5 && \
+	md5sum ${PKG}-${PVER}-src.tar >>${PKG}-${PVER}.md5 && \
+	md5sum ${PKG}-${PVER}-diffs.tar >>${PKG}-${PVER}.md5)
+
+dist: source diff binary md5
+
+dir:
+	install -o root -g root -m 755 -d ${DEBDIR}/DEBIAN 
+	install -o root -g root -m 755 -d ${DEBDIR}/etc/init.d
+	install -o root -g root -m 755 -d ${DEBDIR}/bin
+	install -o root -g root -m 755 -d ${DEBDIR}/sbin
+	install -o root -g root -m 755 -d ${DEBDIR}/usr
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/bin
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/doc/copyright
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/doc/examples
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/doc/net
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/lib/yp
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/man/man1
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/man/man5
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/man/man8
+	install -o root -g root -m 755 -d ${DEBDIR}/usr/sbin
+	install -o root -g root -m 755 -d ${DEBDIR}/var/spool/pcnfs
+	install -o root -g root -m 755 -d ${DEBDIR}/var/spool/bwnfs
+	install -o root -g root -m 755 -d ${DEBDIR}/var/spool/pop
+	install -o root -g root -m 755 -d ${DEBDIR}/var/spool/rwho
+	install -o root -g root -m 755 -d ${DEBDIR}/var/yp
+

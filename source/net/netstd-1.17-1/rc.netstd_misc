@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Start additional networking daemons.
+
+NET="/usr/sbin"
+test -f ${NET}/ypbind || exit 0
+
+case "$1" in
+  start)
+	if [ -f /etc/defaultdomain ]; then
+		domainname `cat /etc/defaultdomain`
+		echo "Setting NIS domainname to: `domainname`"
+		NIS=true
+	fi
+	echo -n "Starting additional networking services: "
+#	echo -n "rwhod " ; start-stop-daemon --start --quiet --exec ${NET}/rwhod
+#	echo -n "ypserv " ; start-stop-daemon --start --quiet --exec ${NET}/ypserv
+#	echo -n "yppasswdd " ; start-stop-daemon --start --quiet --exec ${NET}/rpc.yppasswdd
+	if [ "$NIS" = "true" ] && [ -d /var/yp ]; then
+		echo -n "ypbind "
+		start-stop-daemon --start --quiet --exec ${NET}/ypbind
+	fi
+	echo
+	;;
+  stop)
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rwhod
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/ypbind
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/ypserv
+        start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.yppasswdd
+	;;
+  *)
+        echo "Usage: /etc/init.d/netstd_misc {start|stop}"
+        exit 1
+esac
+
+exit 0
+

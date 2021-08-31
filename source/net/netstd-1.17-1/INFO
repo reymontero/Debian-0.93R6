@@ -1,0 +1,56 @@
+package			version		copyright file	copyright-group
+---------------------------------------------------------------------------
+bootpc			0.45		COPYRIGHT	other
+bootp			2.4.3		COPYRIGHT	other
+bwnfsd			2.3		COPYRIGHT	PD
+dip			3.3.7n		COPYING		GPL
+finger			5.22		COPYRIGHT	BSD
+fingerd			5.6		COPYRIGHT	BSD
+fping			1.2		COPYRIGHT	other
+fromto			1.0		COPYING		GPL
+ftp			5.38		COPYRIGHT	BSD
+ftpd			5.60		COPYRIGHT	BSD
+host			950502		COPYRIGHT	BSD-like
+icmpinfo		1.10		COPYRIGHT	BSD
+libtelnet		5.1		COPYRIGHT	BSD
+net-extra		misc		COPYING		GPL
+ - wdsetup		0.6		COPYING		GPL
+ - systat		1.0		COPYING		GPL
+nfs-server		2.1		COPYING		GPL
+netdate			1.16		COPYRIGHT	PD
+pcnfsd			1.6		COPYRIGHT	SUN
+pidentd			2.6.1		COPYRIGHT	PD
+pop2d			1.001		COPYRIGHT	BSD
+pop3d			1.004		COPYRIGHT	BSD
+popclient		2.21		COPYRIGHT	other
+rcp			5.32		COPYRIGHT	BSD
+rdate			1.3		COPYRIGHT	BSD
+rdist			6.1.0		COPYRIGHT	BSD
+rexecd			5.12		COPYRIGHT	BSD
+rlogin			5.33		COPYRIGHT	BSD
+rlogind			5.53		COPYRIGHT	BSD
+routed			5.23		COPYRIGHT	BSD
+rpc			0.9		COPYRIGHT	SUN
+rpc.rusersd		1.5		COPYRIGHT	BSD-like
+rpc.rwalld		1.2		COPYRIGHT	BSD-like
+rsh			5.24		COPYRIGHT	BSD
+rshd			5.38		COPYRIGHT	BSD
+rstatd			2.2		COPYRIGHT	GPL
+ruptime			5.7		COPYRIGHT	BSD
+rusers			1.10		COPYRIGHT	BSD-like
+rwall			1.5		COPYRIGHT	BSD-like
+rwho			5.5		COPYRIGHT	BSD
+rwhod			5.20		COPYRIGHT	BSD
+sliplogin		1.6.1		COPYRIGHT	BSD
+talk			5.5		COPYRIGHT	BSD
+talkd			5.8		COPYRIGHT	BSD
+telnet			5.53		COPYRIGHT	BSD
+telnetd			5.48		COPYRIGHT	BSD
+tftp			5.10		COPYRIGHT	BSD
+tftpd			5.13		COPYRIGHT	BSD
+traceroute		4.4BSD		COPYRIGHT	BSD
+vrfy			950410		COPYRIGHT	BSD-like
+yp-clients		2.0		COPYRIGHT	BSD-like
+yppasswd		0.7		COPYRIGHT	GPL/BSD-like
+ypserv			0.13.1		COPYING		GPL
+
