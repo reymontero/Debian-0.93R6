@@ -1,0 +1,17 @@
+Kermit communications software for Linux, packaged by the Debian
+Project for easy installation, may be obtained directly from the
+Kermit project at Columbia University by ftp or by mail order on
+various media:
+
+  FTP:    kermit.columbia.edu/kermit/linux/* (binary mode)
+  Web:    http://www.columbia.edu/kermit/
+  Email:  orders@kermit.columbia.edu
+  Voice:  +1 (212) 854 3703
+  Fax:    +1 (212) 663 8202
+  Post:   Kermit Distribution, Columbia University
+          612 W 115 Street
+
+  Filenames:
+      kermit-<version>-<revision>.deb     Installable binaries
+      kermit-<version>-<revision>.tar.gz  Debian package sources
+      kermit-<version>-<revision>.diff.gz Diffs
