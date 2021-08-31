@@ -1,0 +1,212 @@
+Sun Sep 24 19:28:15 MET 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.17 released
+
+	* DebianNet.pm: fixed a minor problem with entries which are
+			disabled by default (Bug#1476)
+
+
+Fri Sep 22 01:09:49 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.16 released
+
+	* added amd entry to /etc/rpc
+
+	* DebianNet.pm: minor cleanups
+
+	* update-inetd: minor cleanups
+
+	* DebianNet.pm: added manual page for DebianNet.pm
+
+	* update-inetd: added manual page for update-inetd
+
+	* /etc/init.d/netbase: rpc.portmap and inetd will now be started
+			       using start-stop-daemon (Bug#1414)
+
+
+Thu Sep  7 01:36:37 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.15 released
+
+	* inetd-5.30: added a manual page for inetd.conf
+
+	* DebianNet.pm: added a new function (DebianNet::remove_service)
+			to remove entries from /etc/inetd.conf
+
+	* DebianNet.pm: changed enable_service and disable_service. You
+			can now use an optional pattern (in addition to
+			the service) to select an entry.
+
+	* update-inetd: added a new mode (--remove) to remove entries
+			from /etc/inetd.conf
+
+	* update-inetd: added a new option (--pattern). It can be used to
+			select a service (e.g. if you have two services of
+			the same name)
+
+	* net-tools-1.2.0: minor changes (necessary to compile it with
+			   the kernel 1.3.x includes) (Bug#1284)
+
+
+Mon Aug 21 23:02:33 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.14 released
+
+	* create /etc/inetd.conf during postinst procedure
+
+	* added /usr/sbin/update-inetd and /usr/lib/perl/DebianNet.pm
+
+
+Sat Jul 29 18:41:10 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.13 released
+
+	* net-tools-1.1.95: replaced by net-tools-1.2.0
+
+	* net-tools-1.2.0: added support for ax25 (patch from Bruce Perens)
+
+	* net-tools-1.2.0: enabled ARCnet support
+
+	* net-tools-1.2.0: slattach: added support for real ascii lock files
+
+	* tcp_wrappers_7.1: replaced by tcp_wrappers_7.2
+
+
+Mon Jul 17 22:39:31 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.12 released
+
+	* debian.control: added extended description
+
+	* net-tools-1.1.95: slattach: added support for real ascii lock files
+
+	* net-tools-1.1.95: arp: moved from /sbin to /usr/sbin (see current
+			    fsstnd draft)
+
+	* ipfwadm-1.1: replaced by ipfwadm-1.2
+
+	* portmap: added an ELF patch from J.H.M. Dassen
+
+
+Sun May 14 09:21:30 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.11 released
+
+	* net-tools-1.1.95: moved /usr/sbin/ipfw to /sbin/ipfw
+
+
+Thu Apr 27 23:48:55 MET DST 1995  Peter Tobias  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.10 released
+
+	* changed a few permissions
+
+	* net-tools-1.1.95: moved /usr/sbin/ipfw to /sbin/ipfw
+
+	* ipfwadm: added ipfwadm-1.1
+
+
+Tue Mar 21 08:04:27 MET 1995  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.09 released
+
+	* removed /etc/networks from netbase
+
+
+Wed Mar 15 21:01:41 MET 1995  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.08 released
+
+	* debian.{pre|post}{inst|rm}: added support for System V Init
+
+	* net-tools-1.1.79: replaced by net-tools-1.1.95
+
+	* net-tools-1.1.95: added support for ax25 (patch from Bruce Perens)
+
+	* net-tools-1.1.95: enabled ARCnet support
+
+	* tcp_wrapper-7.1: enabled PARANOID mode in /etc/hosts.deny
+			   (this also means that the tcp_wrapper will
+			   log hostnames instead of IP adresses).
+
+
+Tue Jan 24 17:13:46 MET 1995  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.07 released
+
+	* tcp_wrapper-6.3: replaced by tcp_wrapper-7.1
+
+	* tcp_wrapper-7.1: added a note to the hosts_access.5 man page
+			   that Linux is not affected by a well-known
+			   Unix kernel bug (with RFC 931 username lookups).
+
+	* tcp_wrapper-7.1: disabled the PARANOID mode in the makefile. You can
+			   still enable the PARANOID mode with the PARANOID
+			   access control pattern (see hosts_access.5).
+
+
+Sat Jan 14 03:15:41 MET 1995  <tobias@et-inf.fho-emden.de>
+
+	* Version 1.06 released
+
+	* net-tools-1.1.56: replaced by net-tools-1.1.79
+
+	* net-tools-1.1.79: added support for ax25 (patch from Bruce Perens)
+
+	* net-tools-1.1.79: replaced ipfw man page with a better one
+
+	* ping-5.9: fixed a problem with short packets (smaller than 24 bytes)
+
+	* tcp_wrapper-6.3: added a note to the hosts_access.5 man page
+			   that Linux is not affected by a well-known
+			   Unix kernel bug (with RFC 931 username lookups).
+
+
+Fri Nov 18 23:10:27 MET 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.05 released
+
+	* net-tools-1.1.46: replaced by net-tools-1.1.56
+
+	* net-tools-1.1.56: added support for ax25 (patch from Bruce Perens)
+
+
+Mon Oct 31 01:12:22 MET 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.04 released
+
+	* fixed a bug in the debian.preinst script
+
+	* net-tools-1.1.46: arp: added support for proxy arp entries 
+			    with a netmask (patch from Andrew Tridgell)
+
+
+Tue Oct 25 21:49:45 MET 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.03 released
+
+	* added PACKAGE_REVISION to debian.control
+
+
+Wed Sep 21 00:24:35 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.02 released
+
+	* added /etc/rc.misc/netbase
+
+	* net-tools-1.1.38: replaced by net-tools-1.1.46
+
+
+Tue Sep 06 09:03:52 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.01 released
+
+	* Changed the pre and post installation scripts
+
+
+Wed Aug 24 21:33:28 MET DST 1994  <tobias@server.et-inf.fho-emden.de>
+
+	* Version 1.00 released
+
+	* portmap-5.4: replaced by the 3rd enhanced portmapper release
+                       from Wietse Venema (wietse@wzv.win.tue.nl)

@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Start networking daemons.
+
+test -f /usr/sbin/rpc.portmap || exit 0
+
+case "$1" in
+  start)
+	echo -n "Starting base networking daemons: "
+	echo -n "rpc.portmap " ; start-stop-daemon --start --quiet --exec /usr/sbin/rpc.portmap
+	echo -n "inetd" ; start-stop-daemon --start --quiet --exec /usr/sbin/inetd
+	echo
+	;;
+  stop)
+	start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/inetd.pid --exec /usr/sbin/inetd
+	start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.portmap
+	killall -9 slattach 2>/dev/null || exit 0
+	;;
+  *)
+	echo "Usage: /etc/init.d/netbase {start|stop}"
+	exit 1
+	;;
+esac
+
+exit 0

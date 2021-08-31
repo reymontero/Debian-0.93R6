@@ -1,0 +1,15 @@
+#!/bin/sh
+# pre install script for the Debian GNU/Linux netbase package
+
+set -e
+
+if [ -f /usr/sbin/inetd ]; then
+  start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/inetd.pid --exec /usr/sbin/inetd
+fi
+
+if [ -f /usr/sbin/rpc.portmap ]; then
+  start-stop-daemon --stop --quiet --oknodo --exec /usr/sbin/rpc.portmap
+fi
+
+killall -9 slattach 2>/dev/null || exit 0
+

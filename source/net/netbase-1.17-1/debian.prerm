@@ -1,0 +1,7 @@
+#!/bin/sh
+# post install script for the Debian GNU/Linux netbase package
+
+set -e
+
+/etc/init.d/netbase stop
+

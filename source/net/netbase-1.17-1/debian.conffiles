@@ -1,0 +1,5 @@
+/etc/init.d/netbase
+/etc/gateways
+/etc/hosts.allow
+/etc/hosts.deny
+/etc/rpc

@@ -1,0 +1,21 @@
+Copyright Informations for the Debian GNU/Linux netbase package
+===============================================================
+
+The following packages are covered by BSD, BSD-like or GPL copyrights
+(or are public domain software).
+
+package			copyright
+---------------------------------
+inetd-5.30		BSD
+ipfwadm-1.2		GPL
+net-tools-1.2.0		GPL
+ping-5.9		BSD
+portmap-5.4s3		BSD
+
+
+The following packages are not covered by BSD, BSD-like or GPL copyrights
+(and are not public domain software). They have their own copyright file.
+
+package			copyright-file
+------------------------------------------------------
+tcp_wrappers_7.2	/usr/doc/copyright/tcp_wrapper

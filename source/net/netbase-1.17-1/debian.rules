@@ -1,0 +1,145 @@
+#!/usr/bin/make -f
+
+.PHONY: build
+
+PKG = netbase
+
+P_VER := $(shell grep "VERSION:" debian.control | cut -d' ' -f 2)
+P_REV := $(shell grep "PACKAGE_REVISION:" debian.control | cut -d' ' -f 2)
+
+PVER  := ${P_VER}-${P_REV}
+
+SUBDIRS = inetd-5.30 net-tools-1.2.0 ping-5.9 tcp_wrappers_7.2 portmap-5.4s3 ipfwadm-1.2
+DATADIRS = etc-${PKG}
+
+build:
+	@for i in $(SUBDIRS); do \
+	 ( cd ./$$i && echo -e "\nMaking all in \`$$i':\n" && make ) || exit 1; \
+	done
+
+clean:
+	@for i in $(SUBDIRS); do \
+	 ( cd ./$$i && echo -e "\nMaking clean in \`$$i':\n" && make clean ) || exit 1; \
+	done
+	rm -rf debian-tmp
+
+binary: build
+	install -o root -g root -m 0755 -d debian-tmp
+	install -o root -g root -m 0755 -d debian-tmp/DEBIAN
+	install -o root -g root -m 0755 -d debian-tmp/bin
+	install -o root -g root -m 0755 -d debian-tmp/etc/init.d
+	install -o root -g root -m 0755 -d debian-tmp/sbin
+	install -o root -g root -m 0755 -d debian-tmp/usr/doc/copyright
+	install -o root -g root -m 0755 -d debian-tmp/usr/doc/net
+	install -o root -g root -m 0755 -d debian-tmp/usr/include
+	install -o root -g root -m 0755 -d debian-tmp/usr/lib/perl5
+	install -o root -g root -m 0755 -d debian-tmp/usr/sbin
+	install -o root -g root -m 0755 -d debian-tmp/usr/man/man3
+	install -o root -g root -m 0755 -d debian-tmp/usr/man/man4
+	install -o root -g root -m 0755 -d debian-tmp/usr/man/man5
+	install -o root -g root -m 0755 -d debian-tmp/usr/man/man8
+	install -o root -g root -m 0644 COPYRIGHT debian-tmp/usr/doc/copyright/${PKG}
+	install -o root -g root -m 0755 rc.netbase debian-tmp/etc/init.d/netbase
+	install -o root -g root -m 0644 debian.control debian-tmp/DEBIAN/control
+	install -o root -g root -m 0644 debian.conffiles debian-tmp/DEBIAN/conffiles
+	install -o root -g root -m 0755 debian.preinst debian-tmp/DEBIAN/preinst
+	install -o root -g root -m 0755 debian.postinst debian-tmp/DEBIAN/postinst
+	install -o root -g root -m 0755 debian.prerm debian-tmp/DEBIAN/prerm
+	install -o root -g root -m 0755 debian.postrm debian-tmp/DEBIAN/postrm
+	install -o root -g root -m 0644 etc-${PKG}/* debian-tmp/etc
+	install -o root -g root -m 0755 inetd-5.30/inetd debian-tmp/usr/sbin
+	install -o root -g root -m 0644 inetd-5.30/inetd.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0644 inetd-5.30/inetd.conf.5 debian-tmp/usr/man/man5
+	install -o root -g root -m 4755 ping-5.9/ping debian-tmp/bin
+	install -o root -g root -m 0644 ping-5.9/ping.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 portmap-5.4s3/portmap debian-tmp/usr/sbin/rpc.portmap
+	install -o root -g root -m 0755 portmap-5.4s3/pmap_dump debian-tmp/usr/sbin
+	install -o root -g root -m 0755 portmap-5.4s3/pmap_set debian-tmp/usr/sbin
+	install -o root -g root -m 0644 portmap-5.4s3/portmap.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0644 portmap-5.4s3/rpc.portmap.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 net-tools-1.2.0/arp debian-tmp/usr/sbin
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/arp.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 net-tools-1.2.0/ifconfig debian-tmp/sbin
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/ifconfig.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 net-tools-1.2.0/ipfw debian-tmp/sbin
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/ipfw.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 net-tools-1.2.0/netstat debian-tmp/bin
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/netstat.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 net-tools-1.2.0/plipconfig debian-tmp/usr/sbin
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/plipconfig.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 net-tools-1.2.0/rarp debian-tmp/sbin
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/rarp.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 net-tools-1.2.0/route debian-tmp/sbin
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/route.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0755 net-tools-1.2.0/slattach debian-tmp/usr/sbin
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/slattach.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0644 net-tools-1.2.0/man/en_US.88591/resolver.5 debian-tmp/usr/man/man5
+	install -o root -g root -m 0755 ipfwadm-1.2/ipfwadm debian-tmp/sbin
+	install -o root -g root -m 0644 ipfwadm-1.2/ipfw.4 debian-tmp/usr/man/man4
+	install -o root -g root -m 0644 ipfwadm-1.2/ipfwadm.8 debian-tmp/usr/man/man8
+	install -s -o root -g root -m 0755 tcp_wrappers_7.2/tcpd debian-tmp/usr/sbin
+	install -s -o root -g root -m 0755 tcp_wrappers_7.2/tcpdchk debian-tmp/usr/sbin
+	install -s -o root -g root -m 0755 tcp_wrappers_7.2/tcpdmatch debian-tmp/usr/sbin
+	install -s -o root -g root -m 0755 tcp_wrappers_7.2/try-from debian-tmp/usr/sbin
+	install -s -o root -g root -m 0755 tcp_wrappers_7.2/safe_finger debian-tmp/usr/sbin
+	install -o root -g root -m 0644 tcp_wrappers_7.2/tcpd.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0644 tcp_wrappers_7.2/tcpdchk.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0644 tcp_wrappers_7.2/tcpdmatch.8 debian-tmp/usr/man/man8
+	install -o root -g root -m 0644 tcp_wrappers_7.2/hosts_access.3 debian-tmp/usr/man/man3
+	install -o root -g root -m 0644 tcp_wrappers_7.2/hosts_access.5 debian-tmp/usr/man/man5
+	install -o root -g root -m 0644 tcp_wrappers_7.2/hosts_options.5 debian-tmp/usr/man/man5
+	install -o root -g root -m 0644 tcp_wrappers_7.2/tcpd.h debian-tmp/usr/include
+	install -o root -g root -m 0644 tcp_wrappers_7.2/libwrap.a debian-tmp/usr/lib
+	install -o root -g root -m 0644 tcp_wrappers_7.2/COPYRIGHT debian-tmp/usr/doc/copyright/tcp_wrapper
+	install -o root -g root -m 0644 tcp_wrappers_7.2/README debian-tmp/usr/doc/net/tcp_wrapper.txt
+	install -o root -g root -m 0644 DebianNet.pm debian-tmp/usr/lib/perl5
+	install -o root -g root -m 0644 DebianNet.3pm debian-tmp/usr/man/man3
+	install -o root -g root -m 0755 update-inetd debian-tmp/usr/sbin
+	install -o root -g root -m 0755 update-inetd.8 debian-tmp/usr/man/man8
+	cat portmap-5.4s3/README portmap-5.4s3/BLURB >debian-tmp/usr/doc/net/portmapper.txt
+	gzip -9f debian-tmp/usr/doc/net/portmapper.txt
+	gzip -9f debian-tmp/usr/doc/net/tcp_wrapper.txt
+	dpkg --build debian-tmp
+	mv debian-tmp.deb ../${PKG}-${PVER}.deb
+	cp debian.Changelog ../${PKG}-${PVER}.Changelog
+
+source:
+# Makes a source package.
+	chmod +x debian.rules
+	(cd .. && tar cvf ${PKG}-${PVER}-orig.tar ${PKG}.orig) || exit 1;
+	gzip -9fv ../${PKG}-${PVER}-orig.tar
+	install -d ../net-tmp
+	@for i in $(SUBDIRS) $(DATADIRS); do \
+	 ( echo -e "\nCreating \`$$i.tar' ...\n" && tar cvf ../net-tmp/$$i.tar $$i ) || exit 1; \
+	done
+	gzip -9fv ../net-tmp/*.tar
+	cp update-inetd update-inetd.8 DebianNet.pm DebianNet.3pm COPYRIGHT rc.netbase debian.* ../net-tmp
+	(cd ../net-tmp && tar cvf ../${PKG}-${PVER}-src.tar *) || exit 1;
+	rm -rf ../net-tmp
+ 
+diff:
+# Makes a diff package.
+	install -m 755 -d ../${PKG}.diffs
+	@for i in $(SUBDIRS) $(DATADIRS); do \
+	 ( cd ..;\
+	   if [ -d ${PKG}.orig/$$i.orig ]; then \
+	     echo -e "Creating diff for $$i ..."; \
+	     diff -c -P --recursive --exclude=COPYRIGHT \
+		--exclude=COPYING ${PKG}.orig/$$i.orig/ ${PKG}/$$i/ >${PKG}.diffs/$$i.diff || \
+	     true; \
+	 fi ) || exit 1; \
+	done
+	gzip -9fv ../${PKG}.diffs/*.diff
+	(cd ../${PKG}.diffs && tar cvf ../${PKG}-${PVER}-diffs.tar *) || exit 1;
+
+md5:
+	(cd .. && \
+	ls -l ${PKG}-${PVER}.deb ${PKG}-${PVER}-src.tar ${PKG}-${PVER}-diffs.tar >${PKG}-${PVER}.md5 && \
+	echo >>${PKG}-${PVER}.md5 && \
+	md5sum ${PKG}-${PVER}.deb >>${PKG}-${PVER}.md5 && \
+	md5sum ${PKG}-${PVER}-src.tar >>${PKG}-${PVER}.md5 && \
+	md5sum ${PKG}-${PVER}-diffs.tar >>${PKG}-${PVER}.md5)
+
+dist: source diff binary md5
+# Make source, diff and binary packages
+

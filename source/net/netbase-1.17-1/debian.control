@@ -1,0 +1,10 @@
+PACKAGE: netbase
+VERSION: 1.17
+PACKAGE_REVISION: 1
+MAINTAINER: Peter Tobias <tobias@et-inf.fho-emden.de>
+RECOMMENDED: netstd (>1.14)
+DESCRIPTION: Basic TCP/IP networking binaries
+ In order to make use of the network you need a few tools to
+ configure it. This package contains all the necessary tools
+ to configure the networking interfaces, to setup the routing
+ tables and to start other services using the inetd server.

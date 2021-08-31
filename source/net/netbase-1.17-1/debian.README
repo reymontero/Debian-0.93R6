@@ -1,0 +1,23 @@
+Sources for Debian GNU/Linux netbase package
+--------------------------------------------
+
+Compiling the networking tools:
+
+- make sure you have gcc-2.5.8 and libc-4.5.26 or newer available.
+
+- You can compile the netbase tools by using one of the following command
+  lines:
+
+  debian.rules        -  compile all programs
+  debian.rules clean  -  remove binaries and object files from the source tree
+  debian.rules binary -  create a Debian GNU/Linux binary package
+  debian.rules source -  create a source package
+  debian.rules dist   -  source, diff and binary targets
+  debian.rules diff   -  create diffs for all programs (only useful if you have
+                         the original sources installed as well)
+
+- You can find the original sources at sunacm.swan.ac.uk
+
+
+Peter Tobias <tobias@et-inf.fho-emden.de>
+
